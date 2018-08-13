@@ -7,9 +7,14 @@ attr_reader :balance, :limit
     @limit = 90
   end
 
-  def add_money(money)
-    raise "balance limit reached: #{limit}" if (balance + money) > limit
-    @balance += money
+  def add_money(amount)
+    raise "balance limit reached: #{limit}" if (balance + amount) > limit
+    @balance += amount
+  end
+
+  def deduct_money(amount)
+    raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
+    @balance -= amount
   end
 
 end
