@@ -5,6 +5,12 @@ attr_reader :balance, :limit
   def initialize (balance = DEFAULT_CAPACITY)
     @balance = balance
     @limit = 90
+    # @starting = nil
+    @in_use = false
+  end
+
+  def in_journey?
+    @in_use
   end
 
   def add_money(amount)
