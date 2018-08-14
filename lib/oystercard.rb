@@ -15,22 +15,23 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct_money(amount)
-    raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
-    @balance -= amount
-  end
-
   def touch_in
     raise "Insufficient funds! Current balance: £#{balance}" if balance < MINIMUM_FARE
     @in_use = true
   end
-
+  
   def touch_out
+    deduct_money(MINIMUM_FARE)
     @in_use = false
   end
-
+  
   def in_journey?
     @in_use
   end
-
+  
+  private
+  def deduct_money(amount)
+    raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
+    @balance -= amount
+  end
 end

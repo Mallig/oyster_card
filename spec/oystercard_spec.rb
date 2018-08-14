@@ -31,11 +31,11 @@ describe Oystercard do
   # it { is_expected.to respond_to(:deduct_money).with(1).argument }
 
     it "deducts amount from card balance" do
-      expect { subject.deduct_money(5) }.to change { subject.balance }.by -5
+      expect { subject.send :deduct_money, 5 }.to change { subject.balance }.by -5
     end
 
     it "will not deduct more than balance" do
-      expect { subject.deduct_money(Oystercard::DEFAULT_BALANCE+1) }.to raise_error("Insufficient balance, #{subject.balance} remaining")
+      expect { subject.send :deduct_money, (Oystercard::DEFAULT_BALANCE+1) }.to raise_error("Insufficient balance, #{subject.balance} remaining")
     end
   end
 
@@ -48,7 +48,7 @@ describe Oystercard do
     end
 
     it "will raise error if tap below minimum limit" do
-      subject.deduct_money(Oystercard::DEFAULT_BALANCE)
+      subject.send :deduct_money, Oystercard::DEFAULT_BALANCE
       expect { subject.touch_in }.to raise_error("Insufficient funds! Current balance: £#{subject.balance}")
     end
 
@@ -58,6 +58,11 @@ describe Oystercard do
     it "changes value of .in_use to false" do
       subject.touch_in
       expect { subject.touch_out }.to change { subject.in_journey? }.from(true).to false
+    end
+
+    it "will charge balance minimum fare" do
+      subject.touch_in
+      expect { subject.touch_out }.to change { subject.balance }.by -Oystercard::MINIMUM_FARE
     end
   end
 end
