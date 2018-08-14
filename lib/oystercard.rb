@@ -1,6 +1,7 @@
 class Oystercard
   DEFAULT_BALANCE = 10
-  attr_reader :balance, :limit, :in_use
+  MINIMUM_FARE = 1
+  attr_reader :balance, :limit
 
   def initialize (balance = DEFAULT_BALANCE)
     @balance = balance
@@ -13,13 +14,14 @@ class Oystercard
     raise "balance limit reached: #{limit}" if (balance + amount) > limit
     @balance += amount
   end
-  
+
   def deduct_money(amount)
     raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
     @balance -= amount
   end
 
   def touch_in
+    raise "Insufficient funds! Current balance: £#{balance}" if balance < MINIMUM_FARE
     @in_use = true
   end
 
