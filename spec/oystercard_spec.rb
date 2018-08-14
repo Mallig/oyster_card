@@ -1,5 +1,8 @@
 require 'oystercard'
 describe Oystercard do
+
+  let(:barrier) { double :barrier, station: "Clapham" }
+
   describe "when initialized" do
     it { is_expected.not_to eql(nil) }
 
@@ -40,28 +43,30 @@ describe Oystercard do
   end
 
   describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in) }
+    it { is_expected.to respond_to(:touch_in).with(1).argument }
     it "changes value of .in_use to true" do
-      #subject.touch_in
-      #expect(subject.in_use).to eq true
-      expect { subject.touch_in }.to change { subject.in_journey? }.from(false).to true
+      expect { subject.touch_in(barrier) }.to change { subject.in_journey? }.from(false).to true
     end
 
     it "will raise error if tap below minimum limit" do
       subject.send :deduct_money, Oystercard::DEFAULT_BALANCE
-      expect { subject.touch_in }.to raise_error("Insufficient funds! Current balance: £#{subject.balance}")
+      expect { subject.touch_in(barrier) }.to raise_error("Insufficient funds! Current balance: £#{subject.balance}")
+    end
+
+    it "will log the journey starting location" do
+
     end
 
   end
 
   describe "#touch_out" do
     it "changes value of .in_use to false" do
-      subject.touch_in
+      subject.touch_in(barrier)
       expect { subject.touch_out }.to change { subject.in_journey? }.from(true).to false
     end
 
     it "will charge balance minimum fare" do
-      subject.touch_in
+      subject.touch_in(barrier)
       expect { subject.touch_out }.to change { subject.balance }.by -Oystercard::MINIMUM_FARE
     end
   end
