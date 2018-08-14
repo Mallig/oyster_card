@@ -7,8 +7,8 @@ describe Oystercard do
       expect(subject).to respond_to(:add_money)
     end
 
-    it "has a balance of 10" do
-      expect(subject.balance).to eq(Oystercard::DEFAULT_CAPACITY)
+    it "has a default balance" do
+      expect(subject.balance).to eq(Oystercard::DEFAULT_BALANCE)
     end
 
     it "has a changeable default balance" do
@@ -17,6 +17,8 @@ describe Oystercard do
   end
 
   describe "#add_money" do
+    it { is_expected.to respond_to(:add_money).with(1).argument }
+
     it "tops up the card" do
       expect { subject.add_money(10) }.to change { subject.balance }.by +10
     end
@@ -26,13 +28,30 @@ describe Oystercard do
   end
 
   describe "#deduct_money" do
-    it { is_expected.to respond_to(:deduct_money).with(1).argument }
+  # it { is_expected.to respond_to(:deduct_money).with(1).argument }
+  
     it "deducts amount from card balance" do
       expect { subject.deduct_money(5) }.to change { subject.balance }.by -5 
     end
   
     it "will not deduct more than balance" do
-      expect { subject.deduct_money(Oystercard::DEFAULT_CAPACITY+1) }.to raise_error("Insufficient balance, #{subject.balance} remaining")
+      expect { subject.deduct_money(Oystercard::DEFAULT_BALANCE+1) }.to raise_error("Insufficient balance, #{subject.balance} remaining")
+    end
+  end
+
+  describe "#touch_in" do
+    it { is_expected.to respond_to(:touch_in) }
+    it "changes value of .in_use to true" do
+      #subject.touch_in
+      #expect(subject.in_use).to eq true
+      expect { subject.touch_in }.to change { subject.in_journey? }.from(false).to true
+    end
+  end
+  
+  describe "#touch_out" do
+    it "changes value of .in_use to false" do
+      subject.touch_in
+      expect { subject.touch_out }.to change { subject.in_journey? }.from(true).to false
     end
   end
 end
