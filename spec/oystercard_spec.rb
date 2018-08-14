@@ -1,7 +1,7 @@
 require 'oystercard'
 describe Oystercard do
 
-  let(:barrier) { double :barrier, station: "Clapham" }
+  let(:barrier) { double :barrier }
 
   describe "when initialized" do
     it { is_expected.not_to eql(nil) }

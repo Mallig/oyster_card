@@ -17,7 +17,7 @@ class Oystercard
 
   def touch_in(barrier)
     raise "Insufficient funds! Current balance: £#{balance}" if balance < MINIMUM_FARE
-    @journey = barrier.station
+    @journey = barrier
   end
 
   def touch_out
