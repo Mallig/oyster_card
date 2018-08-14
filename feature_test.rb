@@ -5,5 +5,4 @@ card.balance
 card.touch_in("Camden")
 card.journey
 card.touch_out
-card.journey
-card.balance
+card.journey_history

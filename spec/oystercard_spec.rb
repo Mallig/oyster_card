@@ -54,7 +54,11 @@ describe Oystercard do
     end
 
     it "will log the journey starting location" do
+      expect { subject.touch_in(barrier) }.to change { subject.journey }.to barrier
+    end
 
+    it "begins a log for journey history" do
+      
     end
 
   end
@@ -69,5 +73,16 @@ describe Oystercard do
       subject.touch_in(barrier)
       expect { subject.touch_out }.to change { subject.balance }.by -Oystercard::MINIMUM_FARE
     end
+  end
+
+  describe "#journey_history" do
+    it "returns cards journey history" do
+      subject.touch_in(barrier)
+      expect(subject.journey_history).to eq("Started at #{barrier}, ended at #{}\n")
+    end
+
+#    it "" do
+#
+#    end
   end
 end
