@@ -14,10 +14,11 @@ class Journey
   def exit(station)
     @journey[:exit] = station
     @current_journey = false
+    calculate_fare
   end
 
   def calculate_fare
-
+    
   end
 
   def penalty?

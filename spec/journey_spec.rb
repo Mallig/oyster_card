@@ -27,5 +27,14 @@ describe Journey do
 
       expect { subject.exit("Bank") }.to change { subject.current_journey }.from(true).to false
     end
+
+    #it "calculates journey fare" do
+    #  subject.entry("Wapping")
+    #  expect(subject.exit("Bank")).to 
+    #end
+  end
+
+  describe "#calculate_fare" do
+    
   end
 end
