@@ -22,13 +22,17 @@ class Oystercard
   end
 
   def touch_out(station)
-    deduct_money(MINIMUM_FARE)
     journey.exit(station)
+    journey.records
+    deduct_money
   end
 
   private
-  def deduct_money(amount)
-    raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
+  def deduct_money
+    amount = journey.calculate_fare
+    # raise "Insufficient balance, #{balance} remaining" if (balance - amount) < 0
     @balance -= amount
   end
+
+
 end
