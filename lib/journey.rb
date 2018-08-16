@@ -32,24 +32,11 @@ class Journey
   end
 
   def penalty?
-
+    journey[:entry] == nil || journey[:exit] == nil
   end
 
   def calculate_penalty
 
-  end
-
-  def touch_in(station)
-    raise "Insufficient funds! Current balance: £#{balance}" if balance < MINIMUM_FARE
-    @journey[:entry] = station
-  end
-
-  def touch_out(station)
-    deduct_money(MINIMUM_FARE)
-    @journey[:exit] = station
-    @journey_history << { entry: journey[:entry], exit: journey[:exit] }
-    @journey[:entry] = nil
-    @journey[:exit] = nil
   end
 
   def in_journey?
