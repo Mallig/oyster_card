@@ -79,10 +79,11 @@ describe Oystercard do
     end
   end
 
-  describe "#journey_history" do
+  describe "#print_journey_history" do
     it "returns cards journey history" do
       subject.touch_in(station_double)
-      expect(subject.journey_history).to eq("Started at #{station_double}, ended at #{}\n")
+      subject.touch_out(station_double)
+      expect(subject.journey_history).to eq([{ entry: station_double, exit: station_double }])
     end
 
 #    it "" do
