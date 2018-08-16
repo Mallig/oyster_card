@@ -5,20 +5,16 @@ class Journey
 
   def initialize
     @journey = { entry: nil, exit: nil }
-    @current_journey = false
     @history = []
   end
 
   def entry(station)
     @journey[:entry] = station
-    @current_journey = true
   end
 
   def exit(station)
     @journey[:exit] = station
-    @current_journey = false
     calculate_fare
-    # records
   end
 
   def records
@@ -28,19 +24,12 @@ class Journey
   end
 
   def calculate_fare
+    return 8 if penalty?
     1
   end
 
-  def penalty?
-    journey[:entry] == nil || journey[:exit] == nil
-  end
-
-  def calculate_penalty
-
-  end
-
-  def in_journey?
-    !!@journey[:entry]
+  def penalty? 
+    journey[:entry] == nil # || journey[:exit] == nil
   end
 
 end
