@@ -32,7 +32,7 @@ class Oystercard
   
   private
   def calculate_fare
-    MINIMUM_FARE
+    journey_log.history.last[:entry].zone == journey_log.history.last[:exit].zone ? MINIMUM_FARE : 2
   end
 
   def penalty_on_exit? 

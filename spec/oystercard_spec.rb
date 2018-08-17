@@ -3,7 +3,11 @@ require 'rspec/its'
 
 describe Oystercard do
 
-  let(:station_double) { double :station }
+  let(:station_double) { double :station, zone: 1 }
+  let(:zone1_station_double) { double :station, zone: 1}
+  let(:zone2_station_double) { double :station, zone: 2}
+  let(:zone3_station_double) { double :station, zone: 3}
+
 
   describe "when initialized" do
     its("balance") { is_expected.to eq(Oystercard::DEFAULT_BALANCE) }
@@ -36,7 +40,8 @@ describe Oystercard do
   describe "#deduct_money" do
 
     it "deducts amount from card balance" do
-      subject.touch_in("Waterloo")
+      subject.touch_in(station_double)
+      subject.touch_out(station_double)
       expect { subject.send :deduct_money }.to change { subject.balance }.by -1
     end
 
@@ -54,11 +59,27 @@ describe Oystercard do
 
   describe "#touch_out" do
 
-    it "will charge balance minimum fare" do
-      subject.touch_in(station_double)
-      expect { subject.touch_out(station_double) }.to change { subject.balance }.by -Oystercard::MINIMUM_FARE
+    context "when travelling within a zone" do
+
+      it "will charge balance minimum fare" do
+        subject.touch_in(station_double)
+        expect { subject.touch_out(station_double) }.to change { subject.balance }.by -Oystercard::MINIMUM_FARE
+      end
+
     end
 
+    context "when travelling between zones" do
+
+      it "will charge minimum fare plus £1 per zone change" do
+        subject.touch_in(zone1_station_double)
+        expect { subject.touch_out(zone2_station_double) }.to change { subject.balance }.by ( -Oystercard::MINIMUM_FARE - 1 )
+      end
+
+    end
+
+
+
   end
+
 
 end
