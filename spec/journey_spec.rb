@@ -12,8 +12,9 @@ describe Journey do
 
   describe "#exit" do
 
-    it "records exit station in .journey" do
-      expect { subject.exit("Bank") }.to change { subject.journey[:exit] }.to "Bank"
+    it "logs the journey in .history" do
+      subject.exit("Bank")
+      expect(subject.history).to include( { entry: nil, exit: "Bank" } )
     end
 
   end
@@ -27,7 +28,7 @@ describe Journey do
     end
 
     it "logs the journey" do
-      expect(subject.history).to eq [{ entry: "Waterloo", exit: "Bank" }] 
+      expect(subject.history).to include( { entry: "Waterloo", exit: "Bank" } )
     end
 
     it "resets journey" do

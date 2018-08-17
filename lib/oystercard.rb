@@ -26,7 +26,6 @@ class Oystercard
   def touch_out(station)
     deduct_penalty if penalty_on_exit?
     journey.exit(station)
-    journey.records
     deduct_money
   end
 

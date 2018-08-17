@@ -15,6 +15,7 @@ class Journey
 
   def exit(station)
     journey[:exit] = station
+    records
   end
 
   def records
