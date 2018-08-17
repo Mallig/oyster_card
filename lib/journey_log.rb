@@ -1,4 +1,4 @@
-class Journey
+class JourneyLog
   attr_reader :current_journey, :history
   attr_accessor :journey
 

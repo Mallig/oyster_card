@@ -1,6 +1,6 @@
-require 'journey'
+require 'journey_log'
 
-describe Journey do
+describe JourneyLog do
 
   describe "#entry" do
 
